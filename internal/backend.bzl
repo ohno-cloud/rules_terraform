@@ -3,8 +3,8 @@ load("//internal/starlark:util.bzl", "run_starlark_executor")
 TerraformBackendInfo = provider(
     "Provider for terraform_backend rule.",
     fields = {
-        "src": "Source starlark file",
-        "deps": "Dependencies of starlark file",
+        "label": "label of the Root Module to import",
+        "workspace": "workspace name to import",
     })
 
 def _terraform_backend_impl(ctx):

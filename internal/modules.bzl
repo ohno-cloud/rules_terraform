@@ -3,6 +3,10 @@ load(
     "TerraformBinaryInfo",
     "TerraformProviderInfo",
 )
+load(
+    ":backend.bzl",
+    "TerraformBackendInfo",
+)
 
 TerraformModuleInfo = provider(
     "Provider for the terraform_module rule",
@@ -100,7 +104,18 @@ TerraformRootModuleInfo = provider(
     fields={
         "terraform_wrapper": "Terraform wrapper script to run terraform in this rule's output directory",
         "runfiles": "depset of collected files needed to run",
-    })
+        "deps": "list of labels of other backends to import",
+    }
+)
+
+TerraformWorkspaceInfo = provider(
+    "Meta provider for the terraform_root_module rule to expose workspace and tfvars of the label",
+    fields={
+        "workspace": "name of the Terraform workspace",
+        "tfvars": "depset of tfvar files",
+    }
+)
+
 
 def _terraform_root_module_impl(ctx):
     terraform_info = ctx.attr.terraform[TerraformBinaryInfo]
@@ -145,11 +160,23 @@ def _terraform_root_module_impl(ctx):
             )
             runfiles.append(output)
 
+    # Symlink the tfvar files into terraform "root"
+    for tfvar_file in ctx.files.tfvars:
+        output = ctx.actions.declare_file(tfvar_file.basename)
+        ctx.actions.symlink(
+            output = output,
+            target_file = tfvar_file,
+        )
+        runfiles.append(output)
+
+
     # Create terraformrc
     terraformrc = ctx.actions.declare_file(ctx.label.name + "_terraformrc.tfrc")
     runfiles.append(terraformrc)
     terraformrc_content = """
 plugin_cache_dir = "{}"
+# Disable upgrade & security checks to HashiCorp servers
+disable_checkpoint = true
     """.format(plugin_cache_dir)
 
     # Use and explicit filesystem_mirror block if terraform_version >= 0.13.2
@@ -199,11 +226,32 @@ export TF_DATA_DIR="${{TF_DATA_DIR:-$BUILD_WORKSPACE_DIRECTORY/{package}/.terraf
 
 export TF_CLI_CONFIG_FILE="{terraformrc}"
 
-exec "$terraform" $@
-        """.format(
+exec "$terraform" $@""".format(
             package = ctx.label.package,
             terraform = terraform_binary.short_path,
             terraformrc = terraformrc.basename,
+        ),
+    )
+
+    # Call the wrapper script from the root module and just run validate
+    validation_output = ctx.actions.declare_file(ctx.label.name + ".validation")
+    ctx.actions.run_shell(
+        mnemonic = "TerraformValidate",
+        inputs = runfiles,
+        outputs = [validation_output],
+        # Allow user shell environment variables due to Terraform Providers
+        # will require some variables as a part of validation.
+        use_default_shell_env = True,
+        command = """
+export TF_DATA_DIR=".terraform";
+export TF_SKIP_PROVIDER_VERIFY="1";
+export TF_CLI_CONFIG_FILE="{terraformrc}";
+"{terraform}" -chdir="{package}" init -input=false -backend=false &> {output} &&
+"{terraform}" -chdir="{package}" validate &> {output} || ( cat {output} && false )""".format(
+            package = validation_output.dirname,
+            terraform = terraform_binary.path,
+            output = validation_output.path,
+            terraformrc = terraformrc.path,
         ),
     )
 
@@ -215,7 +263,17 @@ exec "$terraform" $@
         TerraformRootModuleInfo(
             terraform_wrapper = wrapper,
             runfiles = ctx.runfiles(files = runfiles),
-        )
+            deps = [ dep[TerraformBackendInfo] for dep in ctx.attr.deps]
+        ),
+        TerraformWorkspaceInfo(
+            workspace = ctx.attr.workspace,
+            tfvars = [ f.path for f in ctx.files.tfvars ],
+        ),
+        TerraformBackendInfo(
+            label = str(ctx.label),
+            workspace = ctx.attr.workspace,
+        ),
+        OutputGroupInfo(_validation = depset([validation_output])),
     ]
 
 terraform_root_module = rule(
@@ -230,6 +288,23 @@ with all of the necessary bits in place from the dependent module.
             mandatory = True,
             providers = [TerraformModuleInfo],
         ),
+        "workspace": attr.string(
+            doc = "Terraform workspace for the Root Module",
+            default = "default",
+            mandatory = True,
+        ),
+        "tfvars": attr.label_list(
+            allow_empty = True,
+            allow_files = [".tfvars", ".tfvars.json", ".json"],
+            doc = "Terraform variables for the Root Module",
+            mandatory = True,
+        ),
+        "deps": attr.label_list(
+            allow_empty = True,
+            providers = [TerraformBackendInfo],
+            doc = "Terraform variables for the Root Module",
+        ),
+        # TODO: replace with toolchain
         "terraform": attr.label(
             allow_single_file = True,
             executable = True,
