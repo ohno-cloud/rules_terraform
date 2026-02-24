@@ -1,4 +1,4 @@
-module github.com/ohno-cloud/rules_tf
+module github.com/ohno-cloud/rules_terraform
 
 go 1.23.1
 

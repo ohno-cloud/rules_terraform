@@ -6,6 +6,6 @@ go_library(
         "multienv.go",
         "repo.go",
     ],
-    importpath = "github.com/dbanetto/rules_terraform/pkg/atlantis",
+    importpath = "github.com/ohno-cloud/rules_terraform/pkg/atlantis",
     visibility = ["//visibility:public"],
 )

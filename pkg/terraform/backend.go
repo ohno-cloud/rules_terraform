@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/ohno-cloud/rules_tf/pkg/vault"
+	"github.com/ohno-cloud/rules_terraform/pkg/vault"
 )
 
 const (

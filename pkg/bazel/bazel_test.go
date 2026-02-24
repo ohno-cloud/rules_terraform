@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/ohno-cloud/rules_tf/pkg/bazel"
+	"github.com/ohno-cloud/rules_terraform/pkg/bazel"
 )
 
 func TestLabel_ToPath(t *testing.T) {

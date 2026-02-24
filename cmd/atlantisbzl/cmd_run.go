@@ -11,9 +11,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ohno-cloud/rules_tf/pkg/bazel"
-	"github.com/ohno-cloud/rules_tf/pkg/terraform"
-	bzlTf "github.com/ohno-cloud/rules_tf/pkg/terraform/bazel"
+	"github.com/ohno-cloud/rules_terraform/pkg/bazel"
+	"github.com/ohno-cloud/rules_terraform/pkg/terraform"
+	bzlTf "github.com/ohno-cloud/rules_terraform/pkg/terraform/bazel"
 )
 
 type RunCmd struct {

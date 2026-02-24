@@ -7,8 +7,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/ohno-cloud/rules_tf/pkg/terraform"
-	"github.com/ohno-cloud/rules_tf/pkg/vault"
+	"github.com/ohno-cloud/rules_terraform/pkg/terraform"
+	"github.com/ohno-cloud/rules_terraform/pkg/vault"
 )
 
 func TestGetBackend(t *testing.T) {

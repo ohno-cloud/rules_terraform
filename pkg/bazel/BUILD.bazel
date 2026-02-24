@@ -3,11 +3,12 @@ load("@rules_go//go:def.bzl", "go_library", "go_test")
 go_library(
     name = "bazel",
     srcs = ["bazel.go"],
-    importpath = "github.com/dbanetto/rules_terraform/pkg/bazel",
+    importpath = "github.com/ohno-cloud/rules_terraform/pkg/bazel",
     visibility = ["//visibility:public"],
 )
 
 go_test(
     name = "bazel_test",
     srcs = ["bazel_test.go"],
+    deps = [":bazel"],
 )

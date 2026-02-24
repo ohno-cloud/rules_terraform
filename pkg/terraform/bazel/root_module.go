@@ -9,7 +9,7 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/ohno-cloud/rules_tf/pkg/terraform"
+	"github.com/ohno-cloud/rules_terraform/pkg/terraform"
 )
 
 var (

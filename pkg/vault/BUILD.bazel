@@ -6,7 +6,7 @@ go_library(
         "client.go",
         "fake_client.go",
     ],
-    importpath = "github.com/dbanetto/rules_terraform/pkg/vault",
+    importpath = "github.com/ohno-cloud/rules_terraform/pkg/vault",
     visibility = ["//visibility:public"],
     deps = [
         "@com_github_hashicorp_vault_api//:api",

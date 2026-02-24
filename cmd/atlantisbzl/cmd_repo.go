@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ohno-cloud/rules_tf/pkg/atlantis"
-	"github.com/ohno-cloud/rules_tf/pkg/bazel"
-	tfbzl "github.com/ohno-cloud/rules_tf/pkg/terraform/bazel"
+	"github.com/ohno-cloud/rules_terraform/pkg/atlantis"
+	"github.com/ohno-cloud/rules_terraform/pkg/bazel"
+	tfbzl "github.com/ohno-cloud/rules_terraform/pkg/terraform/bazel"
 
 	yaml "gopkg.in/yaml.v3"
 )

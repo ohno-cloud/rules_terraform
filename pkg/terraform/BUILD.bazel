@@ -7,11 +7,16 @@ go_library(
         "providers.go",
         "run.go",
     ],
-    importpath = "github.com/dbanetto/rules_terraform/pkg/terraform",
+    importpath = "github.com/ohno-cloud/rules_terraform/pkg/terraform",
     visibility = ["//visibility:public"],
+    deps = ["//pkg/vault"],
 )
 
 go_test(
     name = "terraform_test",
     srcs = ["backend_test.go"],
+    deps = [
+        ":terraform",
+        "//pkg/vault",
+    ],
 )

@@ -12,7 +12,7 @@ import (
 	"github.com/spiffe/go-spiffe/v2/svid/jwtsvid"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
-	"github.com/ohno-cloud/rules_tf/pkg/vault"
+	"github.com/ohno-cloud/rules_terraform/pkg/vault"
 )
 
 type CLI struct {

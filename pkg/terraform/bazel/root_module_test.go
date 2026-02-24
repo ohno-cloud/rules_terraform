@@ -7,7 +7,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/ohno-cloud/rules_tf/pkg/bazel"
+	"github.com/ohno-cloud/rules_terraform/pkg/bazel"
 )
 
 var (

@@ -7,8 +7,8 @@ import (
 	"path"
 	"strings"
 
-	"github.com/ohno-cloud/rules_tf/pkg/bazel"
-	"github.com/ohno-cloud/rules_tf/pkg/terraform"
+	"github.com/ohno-cloud/rules_terraform/pkg/bazel"
+	"github.com/ohno-cloud/rules_terraform/pkg/terraform"
 )
 
 var (

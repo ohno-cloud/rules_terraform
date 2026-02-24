@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/ohno-cloud/rules_tf/pkg/bazel"
+	"github.com/ohno-cloud/rules_terraform/pkg/bazel"
 )
 
 type LocalCmd struct {
