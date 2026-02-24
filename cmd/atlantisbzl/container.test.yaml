@@ -1,0 +1,20 @@
+schemaVersion: 2.0.0
+fileExistenceTests:
+  - name: 'Atlantis'
+    path: '/usr/local/bin/atlantis'
+    shouldExist: true
+    permissions: '-rwxr-xr-x'
+    isExecutableBy: 'any'
+  - name: 'Bazel Atlantis'
+    path: '/usr/bin/atlantis-bazel'
+    shouldExist: true
+    permissions: '-rwxr-xr-x'
+    isExecutableBy: 'any'
+  - name: 'Bazelisk'
+    path: '/usr/bin/bazel'
+    shouldExist: true
+    permissions: '-rwxr-xr-x'
+    isExecutableBy: 'any'
+metadataTest:
+  entrypoint: ["docker-entrypoint.sh"]
+  cmd: ["server"]

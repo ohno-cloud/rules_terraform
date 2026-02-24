@@ -1,0 +1,8 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "ctxlog",
+    srcs = ["hander.go"],
+    importpath = "github.com/dbanetto/rules_terraform/pkg/ctxlog",
+    visibility = ["//visibility:public"],
+)

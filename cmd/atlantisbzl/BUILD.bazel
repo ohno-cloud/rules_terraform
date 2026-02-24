@@ -1,0 +1,25 @@
+load("@rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "atlantisbzl_lib",
+    srcs = [
+        "cmd_local.go",
+        "cmd_repo.go",
+        "cmd_run.go",
+        "main.go",
+    ],
+    importpath = "github.com/dbanetto/rules_terraform/cmd/atlantisbzl",
+    visibility = ["//visibility:private"],
+    deps = [
+        "@com_github_alecthomas_kong//:kong",
+        "@com_github_spiffe_go_spiffe_v2//svid/jwtsvid",
+        "@com_github_spiffe_go_spiffe_v2//workloadapi",
+        "@in_gopkg_yaml_v3//:yaml_v3",
+    ],
+)
+
+go_binary(
+    name = "atlantisbzl",
+    embed = [":atlantisbzl_lib"],
+    visibility = ["//visibility:public"],
+)

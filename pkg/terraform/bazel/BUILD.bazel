@@ -1,0 +1,18 @@
+load("@rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "bazel",
+    srcs = [
+        "provider.go",
+        "root_module.go",
+        "workspace.go",
+    ],
+    importpath = "github.com/dbanetto/rules_terraform/pkg/terraform/bazel",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "bazel_test",
+    srcs = ["root_module_test.go"],
+    embed = [":bazel"],
+)

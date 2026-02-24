@@ -1,0 +1,17 @@
+load("@rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "terraform",
+    srcs = [
+        "backend.go",
+        "providers.go",
+        "run.go",
+    ],
+    importpath = "github.com/dbanetto/rules_terraform/pkg/terraform",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "terraform_test",
+    srcs = ["backend_test.go"],
+)
