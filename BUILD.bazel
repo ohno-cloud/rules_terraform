@@ -2,5 +2,5 @@ load("@gazelle//:def.bzl", "gazelle")
 
 # Run with bazel run //:gazelle
 
-# gazelle:prefix github.com/dbanetto/rules_terraform
+# gazelle:prefix github.com/ohno-cloud/rules_terraform
 gazelle(name = "gazelle")

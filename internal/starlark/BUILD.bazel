@@ -3,7 +3,7 @@ load("@rules_go//go:def.bzl", "go_binary", "go_library")
 go_library(
     name = "starlark_lib",
     srcs = ["main.go"],
-    importpath = "github.com/dbanetto/rules_terraform/internal/starlark",
+    importpath = "github.com/ohno-cloud/rules_terraform/internal/starlark",
     visibility = ["//visibility:private"],
     deps = [
         "@net_starlark_go//starlark",

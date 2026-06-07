@@ -1,0 +1,15 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "vault",
+    srcs = [
+        "client.go",
+        "fake_client.go",
+    ],
+    importpath = "github.com/ohno-cloud/rules_terraform/pkg/vault",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@com_github_hashicorp_vault_api//:api",
+        "@com_github_hashicorp_vault_api_auth_kubernetes//:kubernetes",
+    ],
+)
